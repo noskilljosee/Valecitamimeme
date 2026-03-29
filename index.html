@@ -49,31 +49,27 @@ button{
 }
 
 #imagenes img{
-    width:80px;
-    margin:5px;
-    border-radius:12px;
-    animation: pop 0.5s ease;
+    width:80%;
+    max-width:300px;
+    margin-top:20px;
+    border-radius:15px;
+    animation: zoom 0.5s ease;
 }
 
+/* final */
 #final{
     display:none;
 }
 
-#final h1{
-    font-size:30px;
-    animation: zoom 1s ease;
-}
-
 #final img{
-    width:220px;
-    border-radius:15px;
+    width:250px;
     margin-top:20px;
+    border-radius:15px;
 }
 
 /* corazones */
 .corazon{
     position:absolute;
-    color:#ff4081;
     font-size:20px;
     animation: floatUp 3s linear infinite;
 }
@@ -82,11 +78,6 @@ button{
 @keyframes floatUp{
     0%{transform:translateY(0); opacity:1;}
     100%{transform:translateY(-600px); opacity:0;}
-}
-
-@keyframes pop{
-    0%{transform:scale(0);}
-    100%{transform:scale(1);}
 }
 
 @keyframes zoom{
@@ -103,7 +94,6 @@ button{
 
 <body>
 
-<!-- MUSICA -->
 <audio id="music" loop>
     <source src="musica.mp3" type="audio/mpeg">
 </audio>
@@ -133,26 +123,28 @@ const mensajes=[
 "Última oportunidad 😡"
 ];
 
+// 👇 SOLO 1 imagen por intento
 const imagenes=[
-["img1.jpg","img2.jpg","img3.jpg","img4.jpg"],
-["img5.jpg","img6.jpg","img7.jpg","img8.jpg"],
-["img9.jpg","img10.jpg","img11.jpg","img12.jpg"],
-["img13.jpg","img14.jpg","img15.jpg","img16.jpg"]
+"img1.jpg",
+"img2.jpg",
+"img3.jpg",
+"img4.jpg"
 ];
 
-const music = document.getElementById("music");
+const music=document.getElementById("music");
 
-// activar música con cualquier toque
+// activar música
 document.body.addEventListener("click", ()=>{
     music.play().catch(()=>{});
-}, { once: true });
+}, {once:true});
 
 // mover botón NO
 function moverNo(){
     let x=Math.random()*(window.innerWidth-100);
     let y=Math.random()*(window.innerHeight-100);
-    document.getElementById("no").style.left=x+"px";
-    document.getElementById("no").style.top=y+"px";
+    let btn=document.getElementById("no");
+    btn.style.left=x+"px";
+    btn.style.top=y+"px";
 }
 
 document.getElementById("no").onclick=()=>{
@@ -163,11 +155,10 @@ document.getElementById("no").onclick=()=>{
 
         let cont=document.getElementById("imagenes");
         cont.innerHTML="";
-        imagenes[contador].forEach(src=>{
-            let img=document.createElement("img");
-            img.src=src;
-            cont.appendChild(img);
-        });
+
+        let img=document.createElement("img");
+        img.src=imagenes[contador];
+        cont.appendChild(img);
 
         contador++;
 
@@ -190,7 +181,6 @@ document.getElementById("si").onclick=()=>{
     document.getElementById("final").style.display="block";
 
     lanzarCorazones();
-    fuegos();
 };
 
 // corazones
@@ -207,22 +197,6 @@ function lanzarCorazones(){
     },200);
 }
 
-// fuegos artificiales
-function fuegos(){
-    setInterval(()=>{
-        let fire=document.createElement("div");
-        fire.innerText="✨";
-        fire.style.position="absolute";
-        fire.style.left=Math.random()*window.innerWidth+"px";
-        fire.style.top=Math.random()*window.innerHeight+"px";
-        fire.style.fontSize="30px";
-        document.body.appendChild(fire);
-
-        setTimeout(()=>fire.remove(),1000);
-    },300);
-}
-
-// iniciar posición
 moverNo();
 </script>
 
